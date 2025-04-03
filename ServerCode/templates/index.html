@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCTV Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: #000000;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .left-sidebar {
+            width: 120px;
+            background: #cccccc;
+            border-radius: 15px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            margin: 10px 0;
+        }
+
+        .logo2 {
+            width: 100px;
+            height: 500px;
+            background-size: contain;
+            margin: 10px 0;
+        }
+
+        .version {
+            color: #000000;
+            font-weight: bold;
+            padding: 10px;
+            font-size: 1.2em;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .top-section {
+            display: flex;
+            gap: 15px;
+        }
+
+        .video-container {
+            flex: 1;
+            background: #cccccc;
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        .video-feed {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: black;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .video-feed iframe {
+            width: 100%; /* Fill the container width */
+            height: 100%; /* Fill the container height */
+            border-radius: 10px;
+            object-fit: contain; /* Maintain aspect ratio while fitting the container */
+        }
+
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 0 10px;
+        }
+
+        .divider {
+            width: 2px;
+            background: black;
+            margin: 0 20px;
+        }
+
+        .objects-panel {
+            width: 230px;
+            background: #cccccc;
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .objects-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .objects-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .objects-list li {
+            margin: 5px 0;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .map-area {
+            flex: 1;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
+        .bottom-section {
+            display: flex;
+            gap: 15px;
+            height: 300px;
+        }
+
+        .bottom-panel {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .right-sidebar {
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .profile-card:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .profile-info {
+            text-align: right;
+        }
+
+        .profile-info h3 {
+            color: #000000;
+            margin-bottom: 5px;
+        }
+
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border: 2px solid #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alerts-panel {
+            flex: 1;
+            background: #cccccc;
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .alerts-title {
+            text-align: center;
+            color: #000000;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .alert-card {
+            background: white;
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .alert-card:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .alert-time {
+            font-size: 12px;
+        }
+
+        .alert-details {
+            flex: 1;
+            text-align: center;
+        }
+
+        .alert-location {
+            font-size: 15px;
+            font-weight: bold;
+        }
+        
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between input and button */
+            margin: 10px 0;
+        }
+
+        .search-button {
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: #cccccc;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .modal-header {
+            color: #000000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000000;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+
+        .modal-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .modal-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Login form styles */
+        .login-form {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease;
+        }
+
+        .login-button:hover {
+            background: #0e103e;
+        }
+
+        .error-message {
+            color: #d9534f;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8d7da;
+            border-radius: 5px;
+            display: none;
+        }
+        .alerts-container {
+            max-height: 600px;  
+            overflow-y: auto;
+            padding-right: 8px; 
+        }
+
+        .alerts-panel {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #cccccc;
+            padding: 15px;
+        }
+        .report-button {
+            margin: 20px;
+            padding: 10px 20px;
+            background: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-download {
+            background-color: #36A2EB;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-download:hover {
+            background-color: #2b8acc;
+        }
+
+        /* New styles for modal details */
+        .modal-details {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .modal-details.show {
+            display: block;
+        }
+
+        .modal-section {
+            margin-bottom: 15px;
+        }
+
+        .modal-section-title {
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .modal-section-content {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .view-more-btn {
+            background-color: #36A2EB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .view-more-btn:hover {
+            background-color: #2b8acc;
+        }
+
+        @media (max-width: 1400px) {
+            .container {
+                flex-direction: column;
+            }
+            .left-sidebar {
+                width: 100%;
+                flex-direction: row;
+                height: 80px;
+            }
+            .right-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-sidebar">
+            <img class="logo" src="{{ url_for('static', filename='images/police.png') }}"></img>
+            <img class="logo2" src="{{ url_for('static', filename='images/logo.png') }}"></img>
+            <div class="version">V 2.1.1</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="top-section">
+                <div class="video-container">
+                    <div class="video-feed"></div>
+                    <div class="info-section">
+                        <div class="cctv-info">
+                            <strong>CCTV ID:</strong> <strong id="cctv-id"> K12TJHV647BB </strong><br>
+                            <strong>ADDRESS:</strong><br>
+                           <label id="cctv-address">LICET, Lobby area<br>
+                            inside college building, Nungambakkam<br>
+                            Chennai, Tamil Nadu 600034 </label>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="officer-info">
+                            <strong>OFFICER ID:</strong> <label id="officer-id"> 9861341 </label><br>
+                            <strong>NAME:</strong> <label id="officer-name"> Charles M S </label><br>
+                            <strong>POST:</strong><label id="officer-post"> Senior Constable</label><br>
+                            <strong>PHONE NO.:</strong> <label id="officer-phone" >+91 1234567890</label><br>
+                            <strong>CHANNEL:</strong> <label id="officer-channel"> 4.2GHz </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objects-panel">
+                    <div class="objects-title">Objects Identified</div>
+                    <ul class="objects-list">
+                        <li>Weapons: <strong id="weapons">0</strong></li>
+                        <li>Mob: <strong id="mob">0</strong></li>
+                        <li>Accidents: <strong id="accidents">0</strong></li>
+                        <li>Fire: <strong id="fire">0</strong></li>
+                        <li>Ambulance: <strong id="ambulance">0</strong></li>
+                        <li>Firetruck: <strong id="firetruck">0</strong></li>
+                        <li>Red Light Violation: <strong id="red_light_violation">0</strong></li>
+                    </ul>                    
+                    <input type="text" class="search-box" id="cctv-id-input" placeholder="Search by CCTV ID">
+                    <button class="search-button" onclick="searchCCTV()">Search</button>
+                    <div class="map-area"></div>
+                </div>
+            </div> 
+            <div class="bottom-section">
+                <div class="bottom-panel">
+                    <canvas id="barChart"></canvas>
+                </div>
+                <div class="bottom-panel">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+            <div style="text-align:right; margin-bottom: 20px;">
+                <button id="viewReport" class="btn-download">View Report</button>
+            </div>  
+        </div>
+        
+        <div class="right-sidebar">
+            <button class="profile-card" id="loginButton">
+                <div class="profile-info">
+                    <h3 id="login-name">{{user.name}}</h3>
+                    <h4 id="login-rank">{{ user.role }}</h4>
+                    <h4 style="font-size: 12px" id="login-address">{{ user.station }}</h4>
+                </div>
+                <div class="profile-avatar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+            </button>
+            
+            <div class="alerts-panel">
+                <div class="alerts-title">ALERTS</div>    
+                <div class="alerts-container" id="alertsContainer"></div>
+            </div>    
+            <audio id="alertSound">
+                <source src="/static/alert.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+
+    <div id="alertModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="modal-header">
+                <h2>Alert Details</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info" id="modalInfo">
+                    <!-- Alert info will be populated here -->
+                </div>
+                
+                <!-- View More Details Button -->
+                <button id="viewMoreDetailsBtn" class="view-more-btn">View More Details</button>
+                
+                <!-- Additional Details Section (initially hidden) -->
+                <div id="modalDetails" class="modal-details">
+                    <div id="summarySection" class="modal-section">
+                        <div class="modal-section-title">Summary</div>
+                        <div id="summaryContent" class="modal-section-content"></div>
+                    </div>
+                    <div id="reasoningSection" class="modal-section">
+                        <div class="modal-section-title">Reasoning</div>
+                        <div id="reasoningContent" class="modal-section-content"></div>
+                    </div>
+                    <div id="recommendationSection" class="modal-section">
+                        <div class="modal-section-title">Recommendation</div>
+                        <div id="recommendationContent" class="modal-section-content"></div>
+                    </div>
+                </div>
+                
+                <h3>Evidence Images</h3>
+                <div class="modal-images" id="modalImages">
+                    <!-- Images will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeLoginModal">&times;</span>
+            <div class="modal-header">
+                <h2>Login to Surveillance System</h2>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="login-button">Login</button>
+                    <div id="loginError" class="error-message">
+                        Invalid username or password. Please try again.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+          
+    <script>
+       const ALERTS_API = '/get_alerts';
+const alertsContainer = document.getElementById('alertsContainer');
+const videoContainer = document.querySelector(".video-feed");
+const modalInfo = document.getElementById('modalInfo');
+const modalImages = document.getElementById('modalImages');
+const alertModal = document.getElementById('alertModal');
+const closeModal = document.getElementById('closeModal');
+const viewMoreDetailsBtn = document.getElementById('viewMoreDetailsBtn');
+const modalDetails = document.getElementById('modalDetails');
+const summaryContent = document.getElementById('summaryContent');
+const reasoningContent = document.getElementById('reasoningContent');
+const recommendationContent = document.getElementById('recommendationContent');
+
+// Set to track which alerts have been processed for counting
+const processedAlerts = new Set();
+// Set to track which alerts are currently displayed
+const displayedAlerts = new Set();
+
+// Store the current alert being viewed in the modal
+let currentModalAlert = null;
+
+const counts = {
+    weapons: 0,
+    mob: 0,
+    fire: 0,
+    accidents: 0,
+    ambulance: 0,
+    firetruck: 0,
+    red_light_violation: 0
+};
+
+let globalAlerts = [];
+
+const counterElements = {
+    weapons: ['gun', 'knife'],
+    mob: ['mob', 'Fight'],
+    fire: ['fire'],
+    accidents: ['accident', 'crash'],
+    ambulance: ['ambulance'],
+    firetruck: ['firetruck'],
+    red_light_violation: ['red_light', 'red light', 'signal_jump']
+};
+
+// Store alerts in localStorage to maintain order after refresh
+function saveAlertsToLocalStorage(alerts) {
+    localStorage.setItem('cctv_alerts', JSON.stringify(alerts));
+}
+
+// Get alerts from localStorage
+function getAlertsFromLocalStorage() {
+    const savedAlerts = localStorage.getItem('cctv_alerts');
+    return savedAlerts ? JSON.parse(savedAlerts) : [];
+}
+
+// Store processed alert IDs in localStorage to maintain counts after refresh
+function saveProcessedAlertsToLocalStorage() {
+    localStorage.setItem('processed_alerts', JSON.stringify(Array.from(processedAlerts)));
+}
+
+// Get processed alert IDs from localStorage
+function getProcessedAlertsFromLocalStorage() {
+    const savedProcessedAlerts = localStorage.getItem('processed_alerts');
+    return savedProcessedAlerts ? new Set(JSON.parse(savedProcessedAlerts)) : new Set();
+}
+
+// Save counts to localStorage
+function saveCountsToLocalStorage() {
+    localStorage.setItem('object_counts', JSON.stringify(counts));
+}
+
+// Get counts from localStorage
+function getCountsFromLocalStorage() {
+    const savedCounts = localStorage.getItem('object_counts');
+    return savedCounts ? JSON.parse(savedCounts) : {
+        weapons: 0,
+        mob: 0,
+        fire: 0,
+        accidents: 0,
+        ambulance: 0,
+        firetruck: 0,
+        red_light_violation: 0
+    };
+}
+
+loginButton.addEventListener('click', () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+
+    fetch('/login', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            isLoggedIn = true;
+            document.getElementById('login-name').textContent = data.name;
+            document.getElementById('login-rank').textContent = data.role;
+            document.getElementById('login-address').textContent = data.station;
+            window.location.href = '/'; 
+        } else {
+            loginError.style.display = 'block';
+            loginError.textContent = data.error || 'Invalid credentials';
+        }
+    })
+    .catch(error => {
+        console.error('Error logging in:', error);
+        loginError.style.display = 'block';
+        loginError.textContent = 'Server error';
+    });
+});
+
+const chartConfig = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: { position: 'right' },
+        title: { display: true, text: 'Real-time Alert Analytics', font: { size: 16 } }
+    }
+};
+
+const pieChart = new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
+    data: {
+        labels: Object.keys(counts),
+        datasets: [{
+            data: Object.values(counts),
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#8E44AD', '#2ECC71', '#E74C3C']
+        }]
+    },
+    options: chartConfig
+});
+
+const barChart = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Alerts per Location',
+            data: [],
+            backgroundColor: '#36A2EB'
+        }]
+    },
+    options: {
+        ...chartConfig,
+        scales: { y: { beginAtZero: true } },
+        plugins: {
+            ...chartConfig.plugins,
+            title: { display: true, text: 'Alert Count by Location' }
+        }
+    }
+});
+
+function loadDefaultFeed() {
+    videoContainer.innerHTML = `
+        <img src="/static/images/police.png" alt="Loading Feed"
+             style="width: 100%; height: 400px; border-radius: 10px;" />
+    `;
+}
+
+async function fetchAndRenderAlerts() {
+    try {
+        const response = await fetch(ALERTS_API);
+        const alerts = await response.json();
+        
+        // Sort alerts by newest first
+        alerts.sort((a, b) => {
+            const dateA = new Date(`${a.date} ${a.time}`);
+            const dateB = new Date(`${b.date} ${b.time}`);
+            return dateB - dateA;
+        });
+        
+        globalAlerts = alerts; 
+        saveAlertsToLocalStorage(alerts);
+        
+        if (alerts.length === 0) {
+            loadDefaultFeed();
+            return;
+        }
+
+        // Instead of clearing the container, we'll check for new alerts
+        // and add them at the top
+        const locationCounts = {};
+        
+        // First, identify new alerts that aren't displayed yet
+        const newAlerts = alerts.filter(alert => !displayedAlerts.has(alert.id));
+        
+        // Add new alerts to the top of the container
+        newAlerts.forEach(alert => {
+            // Add to displayed alerts set
+            displayedAlerts.add(alert.id);
+            
+            // Render the alert at the top of the container
+            renderAlert(alert);
+            
+            // Only update counters for alerts we haven't processed yet
+            if (!processedAlerts.has(alert.id)) {
+                updateObjectCounters(alert);
+                processedAlerts.add(alert.id);
+            }
+        });
+        
+        // Update location counts for all alerts
+        alerts.forEach(alert => {
+            const location = alert.location || 'Unknown';
+            locationCounts[location] = (locationCounts[location] || 0) + 1;
+        });
+
+        // Save the processed alerts and counts to localStorage
+        saveProcessedAlertsToLocalStorage();
+        saveCountsToLocalStorage();
+
+        updateVideoFeed(alerts);
+        updateBarChart(locationCounts);
+    } catch (err) {
+        console.error("Failed to fetch alerts:", err);
+        loadDefaultFeed();
+        
+        // If fetch fails, try to load from localStorage
+        const savedAlerts = getAlertsFromLocalStorage();
+        if (savedAlerts.length > 0 && alertsContainer.children.length === 0) {
+            globalAlerts = savedAlerts;
+            // Only render if the container is empty
+            savedAlerts.forEach(alert => {
+                if (!displayedAlerts.has(alert.id)) {
+                    displayedAlerts.add(alert.id);
+                    renderAlert(alert);
+                }
+            });
+        }
+    }
+}
+
+function renderAlert(alert) {
+    const alertButton = document.createElement('button');
+    alertButton.className = 'alert-card';
+    alertButton.dataset.id = alert.id;
+    alertButton.innerHTML = `
+        <div class="alert-time">
+            <small>Time:</small><br>${alert.time}<br>
+            <small>Date:</small><br>${new Date(alert.date).toLocaleDateString()}
+        </div>
+        <div class="divider"></div>
+        <div class="alert-details">
+            <strong>${alert.type}</strong><br>
+            <small>CCTV ID: <span class="alert-cctv">${alert.camera_id}</span></small><br>
+            <small class="alert-objects">
+                <p>${alert.objects} detected at ${alert.location}</p>
+            </small>
+        </div>
+    `;
+    alertButton.addEventListener('click', () => openAlertModal(alert));
+    
+    // Add the alert to the top of the container
+    alertsContainer.insertBefore(alertButton, alertsContainer.firstChild);
+}
+
+function updateObjectCounters(alert) {
+    Object.entries(counterElements).forEach(([id, keywords]) => {
+        if (keywords.some(kw => alert.objects.includes(kw))) {
+            counts[id]++;
+            document.getElementById(id).textContent = counts[id];
+        }
+    });
+
+    pieChart.data.datasets[0].data = Object.values(counts);
+    pieChart.update();
+}
+
+function updateVideoFeed(alerts) {
+    const latestAlert = alerts[0];
+    videoContainer.innerHTML = latestAlert?.url ? `
+    <img src="http://10.236.79.113:5003/video_feed" 
+         style="width: 100%; height: 400px; border-radius: 10px;" />
+` : loadDefaultFeed();
+}
+
+function updateBarChart(locationCounts) {
+    barChart.data.labels = Object.keys(locationCounts);
+    barChart.data.datasets[0].data = Object.values(locationCounts);
+    barChart.update();
+}
+
+function openAlertModal(alert) {
+    // Store the current alert for the "View More Details" button
+    currentModalAlert = alert;
+    
+    // Reset the modal details section
+    modalDetails.classList.remove('show');
+    viewMoreDetailsBtn.textContent = 'View More Details';
+    
+    // Populate the basic alert info
+    modalInfo.innerHTML = `
+        <div class="info-item"><div class="info-label">Alert ID</div><div>${alert.id}</div></div>
+        <div class="info-item"><div class="info-label">Time</div><div>${alert.time} - ${new Date(alert.date).toLocaleDateString()}</div></div>
+        <div class="info-item"><div class="info-label">CCTV ID</div><div>${alert.camera_id}</div></div>
+        <div class="info-item"><div class="info-label">Location</div><div>${alert.location}</div></div>
+        <div class="info-item"><div class="info-label">Type</div><div>${alert.type}</div></div>
+        <div class="info-item"><div class="info-label">Severity</div><div>${alert.severity}</div></div>
+        <div class="info-item"><div class="info-label">Object Detected</div><div>${alert.objects}</div></div>
+    `;
+    
+    // Populate the detailed sections (they'll be hidden initially)
+    summaryContent.textContent = alert.summary || 'No summary available';
+    reasoningContent.textContent = alert.reasoning || 'No reasoning available';
+    recommendationContent.textContent = alert.recommendation || 'No recommendation available';
+    
+    // Show the images
+    modalImages.innerHTML = alert.images.map(img => `
+        <img src="${img}" class="modal-image" 
+             onerror="this.src='/static/images/police.png'">
+    `).join('');
+    
+    // Show the modal
+    alertModal.style.display = 'block';
+    
+    // Only show the View More Details button if there's additional information
+    if (alert.summary || alert.reasoning || alert.recommendation) {
+        viewMoreDetailsBtn.style.display = 'block';
+    } else {
+        viewMoreDetailsBtn.style.display = 'none';
+    }
+}
+
+// Toggle the detailed information when clicking "View More Details"
+viewMoreDetailsBtn.addEventListener('click', function() {
+    modalDetails.classList.toggle('show');
+    if (modalDetails.classList.contains('show')) {
+        viewMoreDetailsBtn.textContent = 'Hide Details';
+    } else {
+        viewMoreDetailsBtn.textContent = 'View More Details';
+    }
+});
+
+document.getElementById('viewReport').addEventListener('click', () => {
+    const locationCounts = getLocationCounts();
+    
+    const reportData = {
+        counts: counts,
+        locationCounts: locationCounts,
+        latestAlerts: getLatestAlerts(5)
+    };
+
+    localStorage.setItem('reportData', JSON.stringify(reportData));
+
+    window.location.href = '/report';
+});
+
+function getLocationCounts() {
+    const locationCounts = {};
+    globalAlerts.forEach(alert => {
+        const location = alert.location || 'Gandhipuram';
+        locationCounts[location] = (locationCounts[location] || 0) + 1;
+    });
+    return locationCounts;
+}
+
+function getLatestAlerts(count) {
+    return globalAlerts.slice(0, count).map(alert => ({
+        id: alert.id,
+        type: alert.type,
+        location: alert.location || 'Gandhipuram',
+        time: alert.time,
+        date: alert.date,
+        objects: alert.objects,
+        severity: alert.severity,
+        summary: alert.summary || '',
+        reasoning: alert.reasoning || '',
+        recommendation: alert.recommendation || ''
+    }));
+}
+
+closeModal.addEventListener('click', () => alertModal.style.display = 'none');
+
+function searchCCTV() {
+    const searchValue = document.getElementById('cctv-id-input').value.trim();
+    if (!searchValue) return;
+    
+    console.log(`Searching for CCTV ID: ${searchValue}`);
+    
+    alert(`Searching for CCTV ID: ${searchValue}`);
+}
+
+// Load alerts on page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Load saved counts and processed alerts from localStorage
+    const savedCounts = getCountsFromLocalStorage();
+    Object.assign(counts, savedCounts);
+    
+    // Update the counter display with saved values
+    Object.keys(counts).forEach(id => {
+        document.getElementById(id).textContent = counts[id];
+    });
+    
+    // Update the pie chart with saved counts
+    pieChart.data.datasets[0].data = Object.values(counts);
+    pieChart.update();
+    
+    // Load processed alerts set
+    processedAlerts.clear();
+    getProcessedAlertsFromLocalStorage().forEach(id => processedAlerts.add(id));
+    
+    // Try to load from localStorage first for immediate display
+    const savedAlerts = getAlertsFromLocalStorage();
+    if (savedAlerts.length > 0) {
+        globalAlerts = savedAlerts;
+        // Display alerts in the correct order (newest first)
+        savedAlerts.forEach(alert => {
+            if (!displayedAlerts.has(alert.id)) {
+                displayedAlerts.add(alert.id);
+                renderAlert(alert);
+            }
+        });
+    }
+    
+    // Then fetch fresh data
+    fetchAndRenderAlerts();
+    
+    // Set up polling for new alerts
+    setInterval(fetchAndRenderAlerts, 3000);
+});
+    </script>        
+    </body>
+    </html>

@@ -1,0 +1,9 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+img {
+    border: 1px solid #ccc;
+    max-width: 90%;
+    height: auto;
+}

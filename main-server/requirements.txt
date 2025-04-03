@@ -1,5 +1,0 @@
-flask
-opencv-python
-torch
-torchvision
-yolov5 
