@@ -1,6 +1,4 @@
-# AI/ML-Based Traffic Management and Road Safety System
-
-## To watch the live video demo of the project, go to: https://youtu.be/l9SXik0kGTs
+# Real-time Accident & Vigilance Enhanced-Surveillance Network (RAVEN) 
 
 ## Overview
 Chennai's rapid urbanization and increasing traffic congestion necessitate intelligent systems to enhance road safety and streamline traffic. This AI/ML-based application offers an integrated solution that combines real-time hazard detection, accident monitoring, and emergency response. It provides a user-friendly interface for government officials to manage traffic efficiently. Leveraging cutting-edge AI/ML technologies and data analytics, the application ensures safer roads, quicker emergency response, and better traffic management.
@@ -58,8 +56,8 @@ Chennai's rapid urbanization and increasing traffic congestion necessitate intel
 ### Setup
 1. Clone the repository:
    ```sh
-   git clone https://github.com/charlesms1246/0_brain_cells.git
-   cd 0_brain_cells
+   git clone https://github.com/charlesms1246/Raven.git
+   cd Raven
    ```
 2. Install dependencies:
    ```sh
