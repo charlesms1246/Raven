@@ -1,0 +1,13 @@
+flask
+opencv-python
+torch
+torchvision
+ultralytics
+numpy
+requests
+streamlit
+opencv-python-headless
+numpy
+Pillow
+azure-storage-blob
+open-ai
